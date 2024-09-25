@@ -1,0 +1,321 @@
+----------------------------------Task1--------------------------------------
+
+create database TicketBookingSystem;
+use TicketBookingSystem;
+
+create table Venu(
+	venue_id int primary key,
+	venue_name varchar(255),
+	address varchar(255)
+);
+
+create table Event(
+	event_id int primary key,
+	event_name varchar(255),
+	event_date date,
+	event_time time,
+	venue_id int,
+	total_seats int,
+	available_seats int,
+	ticket_price decimal(10,2),
+	event_type text,
+	booking_id int,
+	foreign key(venue_id) references Venu(venue_id)
+);
+
+create table Customer(
+	customer_id int primary key,
+	customer_name varchar(255),
+	email varchar(255),
+	phone_number varchar(15),
+	booking_id int
+);
+
+create table Booking(
+	booking_id int primary key,
+	customer_id int,
+	event_id int,
+	num_tickets int,
+	total_cost decimal(10,2),
+	booking_date date,
+	foreign key(customer_id) references Customer(customer_id),
+	foreign key(event_id) references Event(event_id)
+);
+
+
+
+----------------------------------Task 2--------------------------------------
+--Inserting data records in tables
+
+--1
+insert into Venu(venue_id, venue_name, address) values
+	(1, 'Jaipur Convention Center', 'JLN Jaipur'),
+	(2, 'Mansarovar Sports Arena', 'Mansarovar Jaipur'),
+	(3, 'Udaipur Music Hall', 'Gandhipur Udaipur'),
+	(4, 'Trishul Event Plaza', 'Vaishali Nagar, Jodhpur'),
+	(5, 'Rajmandir Hall', 'MI Road, Jaipur'),
+	(6, 'Vellore Entertainment Complex', 'Katpadi, Vellore'),
+	(7, 'Birla Auditorium', 'Raja Park, Ajmer'),
+	(8, 'Erode Cultural Center', 'Gandhiji Road, Erode'),
+	(9, 'RajMandir Convention Hall', 'City Park, Udaipur'),
+	(10, 'JC Event Centre', 'Sitapura, Agra');
+
+select *from Venu;
+
+insert into Event(event_id, event_name, event_date, event_time, venue_id, 
+total_seats, available_seats, ticket_price, event_type, booking_id) values
+(1, 'Jaipur Film Festival', '2024-09-15', '18:00:00', 1, 500, 450, 15.00, 'Movie', 1),
+(2, 'Jaipur Cricket Match', '2024-10-10', '15:30:00', 2, 1000, 800, 25.00, 'Sports', 2),
+(3, 'Udaipur Music Concert', '2024-11-05', '20:00:00', 3, 800, 700, 20.00, 'Concert', 3),
+(4, 'Trishul Dance Show', '2024-11-20', '19:30:00', 4, 600, 550, 18.00, 'Concert', 4),
+(5, 'High Act', '2024-10-15', '18:00:00', 5, 1200, 1000, 10.00, 'Drama', 5),
+(6, 'Vellore Movie Night', '2024-09-08', '21:00:00', 6, 300, 280, 12.00, 'Movie', 6),
+(7, 'Cultural Festival', '2024-10-17', '17:00:00', 7, 700, 650, 22.00, 'Concert', 7),
+(8, 'Erode Football Championship', '2024-12-12', '16:45:00', 8, 1500, 1300, 30.00, 'Sports', 8),
+(9, 'Rajmandir Art Exhibition', '2024-11-30', '10:30:00', 9, 400, 380, 8.00, 'Concert', 9),
+(10, 'JC Comedy Show', '2024-11-18', '19:00:00', 10, 250, 230, 15.00, 'Concert', 10);
+
+insert into Event(event_id, event_name, event_date, event_time, venue_id, 
+total_seats, available_seats, ticket_price, event_type, booking_id) values
+(11, 'World Cup Auction', '2024-10-18', '20:00:00', 7, 1500, 1450, 1500.00, 'Sports', 11);
+insert into Event(event_id, event_name, event_date, event_time, venue_id, 
+total_seats, available_seats, ticket_price, event_type, booking_id) values
+(12, 'Thane Art Exhibition', '2024-12-28', '20:00:00', 7, 18500, 1450, 1500.00, 'Sports', 11);
+insert into Event(event_id, event_name, event_date, event_time, venue_id, 
+total_seats, available_seats, ticket_price, event_type, booking_id) values
+(13, 'Chennai Music Concert', '2024-11-18', '20:00:00', 10, 16000, 1450, 1500.00, 'Sports', 11);
+
+select *from Event;
+
+insert into Customer(customer_id, customer_name, email, phone_number, booking_id) 
+values
+(1, 'Kartik Kumar', 'kartik@email.com', '9876543210', 1),
+(2, 'Priya Raghavan', 'priya@email.com', '8765432109', 2),
+(3, 'Rajesh Sundaram', 'rajesh@email.com', '7654321098', 3),
+(4, 'Ananya Balaji', 'ananya@email.com', '6543210987', 4),
+(5, 'Vishal Mohan', 'vishal@email.com', '5432109876', 5),
+(6, 'Nithya Venkat', 'nithya@email.com', '4321098765', 6),
+(7, 'Arjun Kumar', 'arjun@email.com', '3210987654', 7),
+(8, 'Divya Rajan', 'divya@email.com', '2109876543', 8),
+(9, 'Suresh Ramalingam', 'suresh@gmail.com', '1098765432', 9),
+(10, 'Shreya Anand', 'shreya@email.com', '9987654321', 10);
+
+insert into Customer(customer_id, customer_name, email, phone_number, booking_id) 
+values
+(12, 'Lokesh Kumar', 'lokesh@email.com', '9876543000', 12);
+
+select *from Customer;
+
+insert into Booking(booking_id, customer_id, event_id, num_tickets, total_cost, booking_date)
+values
+(1, 1, 1, 2, 30.00, '2024-09-01'),
+(2, 2, 2, 4, 100.00, '2024-10-02'),
+(3, 3, 3, 1, 20.00, '2024-11-01'),
+(4, 4, 4, 3, 50.00, '2024-11-10'),
+(5, 5, 5, 5, 50.00, '2024-10-05'),
+(6, 6, 6, 2, 24.00, '2024-09-01'),
+(7, 7, 7, 4, 88.00, '2024-10-11'),
+(8, 8, 8, 6, 180.00, '2024-12-06'),
+(9, 9, 9, 1, 8.00, '2024-11-15'),
+(10, 10, 10, 3, 45.00, '2024-11-13');
+
+insert into Booking(booking_id, customer_id, event_id, num_tickets, total_cost, booking_date)
+values
+(11, 1, 11, 1, 1500.00, '2024-09-02');
+
+select *from Booking;
+
+--2
+select event_id, event_name from Event;
+
+--3
+select event_name, event_type, available_seats AS available_tickets from Event;
+
+--4
+select event_id, event_name from Event where event_name like '%cup%';
+
+--5
+select event_id, event_name from Event where ticket_price between 1000 and 2500;
+
+--6
+select event_id, event_name from Event where event_date between '2024-10-01' and '2024-11-15';
+
+--7
+select event_name, available_seats As available_tickets from Event where event_type like '%concert%';
+
+--8
+select customer_id, customer_name from Customer order by customer_id Offset 5 rows fetch first 5 rows only;
+
+--9
+select *from Booking where num_tickets>4;
+
+--10
+select *from Customer where phone_number like '%000';
+
+--11
+select event_id, event_name, total_seats from Event where total_seats>15000 order by total_seats;
+
+--12
+select event_name from Event where event_name not like 'x%' and 
+event_name not like 'y%' and event_name not like 'z%';
+
+
+--------------------------------------Task 3----------------------------------
+
+
+--1
+select event_name, AVG(ticket_price) AS Average_Ticket_Price from Event group by event_name;
+
+--2
+select SUM(total_cost) AS Total_Revenue_Generated from Booking;
+
+--3
+select top 1 e.event_id, e.event_name, SuM(b.num_tickets) AS Total_Ticket_Sales 
+from Event e 
+JOIN Booking b ON e.event_id = b.event_id
+Group By e.event_id, e.event_name
+Order By Total_Ticket_Sales DESC;
+
+--4
+select e.event_name, SuM(b.num_tickets) AS No_Tickets_Sold 
+from Event e 
+JOIN Booking b ON e.event_id = b.event_id
+Group By e.event_name;
+
+--5
+SELECT e.event_id, e.event_name FROM Event e
+LEFT JOIN Booking b ON e.event_id = b.event_id
+WHERE b.num_tickets IS NULL;
+
+
+--6
+select top 1 c.customer_name, SuM(b.num_tickets) AS Tickets_Booked 
+from Customer c
+JOIN Booking b ON c.customer_id = b.customer_id
+Group By c.customer_name
+Order By Tickets_Booked DESC;
+
+--7
+select MONTH(booking_date) AS booked_month, SUM(num_tickets) AS total_tickets
+From Booking b
+Join Event e ON e.event_id = b.event_id
+Group by booking_date;
+
+--8
+select e.event_id, e.event_name, AVG(e.ticket_price) As Avg_Ticket_price, v.venue_name
+from Event e
+JOIN venu v ON v.venue_id=e.venue_id
+Group By e.event_id, e.event_name, v.venue_name;
+
+--9
+SELECT CAST(e.event_type AS NVARCHAR(MAX)) AS event_type, SUM(b.num_tickets) 
+AS total_tickets_sold FROM Event e
+JOIN Booking b ON e.event_id = b.event_id
+GROUP BY CAST(e.event_type AS NVARCHAR(MAX));
+
+
+--10
+SELECT YEAR(e.event_date) AS event_year, SUM(b.total_cost) 
+AS total_revenue FROM Event e
+JOIN Booking b ON e.event_id = b.event_id
+GROUP BY YEAR(e.event_date)
+ORDER BY event_year;
+
+--11
+select c.customer_id, c.customer_name, COUNT(b.event_id) 
+AS Events_Booked From Customer c
+Join Booking b ON c.customer_id=b.customer_id
+Group by c.customer_id, c.customer_name
+HAVING COUNT(b.event_id) > 1;
+
+--12
+select c.customer_name, SUM(total_cost) AS Total_Revenue
+From Customer c
+Join Booking b On b.customer_id=c.customer_id
+Group By c.customer_name;
+
+--13
+select v.venue_name, CAST(e.event_type AS NVARCHAR(MAX)) 
+As event_type, AVG(e.ticket_price) AS Average_ticket_price 
+From event e Join Venu v ON e.venue_id=v.venue_id
+Group By v.venue_name, CAST(e.event_type AS NVARCHAR(MAX));
+
+
+
+--14
+SELECT c.customer_name, SUM(b.num_tickets) AS Ticket_Purchased
+FROM Booking b JOIN Customer c ON b.customer_id = c.customer_id
+WHERE b.booking_date BETWEEN DATEADD(DAY, -30, GETDATE()) AND GETDATE()
+GROUP BY c.customer_name;
+
+
+--------------------------------------Task 4----------------------------------
+
+--1
+select v.venue_id, v.venue_name,
+(Select AVG(ticket_price) From  event e where e.venue_id=v.venue_id)
+As average_ticket_price from Venu v;
+
+
+--2
+SELECT e.event_id, e.event_name FROM Event e 
+WHERE (SELECT SUM(b.num_tickets) FROM Booking b 
+WHERE b.event_id = e.event_id) > (0.5 * e.total_seats);
+
+
+--3
+select e.event_name, e.event_id,(select sum(num_tickets) 
+From Booking b where b.event_id=e.event_id)
+As Sold_tickets From Event e;
+
+
+--4
+Select c.customer_id, c.customer_name From Customer c
+where not exists(select *from Booking b where c.customer_id=b.customer_id);
+
+
+--5
+select e.event_name from event e where e.event_id NOT IN
+(select distinct b.event_id From Booking b where e.event_id=b.event_id);
+
+
+--6
+select CAST(e.event_type AS NVARCHAR(MAX)) As event_type, 
+SUM(b.num_tickets) AS Total_tickets_sold from
+(select event_id, SUM(num_tickets) AS num_tickets from Booking 
+group by event_id) b JOIN Event e ON e.event_id=b.event_id
+Group By CAST(e.event_type AS NVARCHAR(MAX));
+
+
+--7
+SELECT e.event_id, e.event_name, e.ticket_price
+FROM Event e
+WHERE e.ticket_price > (SELECT AVG(ticket_price) FROM Event);
+
+
+--8
+select c.customer_id, c.customer_name, (Select SUM(b.total_cost) AS TotalCost
+From Booking b where b.customer_id = c.customer_id) As Total_Revenue
+From Customer c;
+
+
+--9
+select c.customer_id, c.customer_name From Customer c where c.customer_id
+IN (Select b.customer_id from Booking b JOIN Event e ON
+b.event_id=e.event_id where e.venue_id=4);
+
+
+--10
+select event_id, SUM(num_tickets) AS Total_Tickets_Sold
+From Booking group by event_id;
+
+
+--11
+select c.customer_id, c.customer_name, FORMAT(b.booking_date, 'MM')
+AS Booking_Month From Customer c JOIN Booking b ON
+c.customer_id=b.customer_id ORDER BY c.customer_id, FORMAT(b.booking_date, 'MM');
+
+
+--12
+select v.venue_name, (Select AVG(e.ticket_price) From Event e
+Where e.venue_id=v.venue_id) As Average_Ticket_Price From Venu v;
